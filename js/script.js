@@ -98,6 +98,57 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    // Modal
+
+    const findModal = document.querySelectorAll("[data-modal]");
+    const showModal = document.querySelector(".modal");
+    const hideModal = document.querySelector("[data-close]");
+
+    function openModal() {
+        showModal.classList.add("show");
+        showModal.classList.remove("hide");
+        document.body.style.overflow = "hidden";
+        // clearInterval(madalTimerId);
+    }
+
+    findModal.forEach((el) => {
+        el.addEventListener("click", openModal);
+    });
+
+    function closeModal() {
+        showModal.classList.add("hide");
+        showModal.classList.remove("show");
+        document.body.style.overflow = "visible";
+    }
+
+    hideModal.addEventListener("click", closeModal);
+
+    showModal.addEventListener("click", (event) => {
+        if (event.target === showModal) {
+            closeModal();
+        }
+    });
+
+    document.addEventListener("keydown", (event) => {
+        if (event.code === "Escape" && showModal.classList.contains("show")) {
+            closeModal();
+        }
+    });
+
+    // const madalTimerId = setTimeout(openModal, 5000);
+
+    function showModalByScroll() {
+        if (
+            window.scrollY + document.documentElement.clientHeight >=
+            document.documentElement.scrollHeight - 1
+        ) {
+            openModal();
+            window.removeEventListener("scroll", showModalByScroll);
+        }
+    }
+
+    window.addEventListener("scroll", showModalByScroll);
+
     (() => {
         //  Tabes
         hideTabContent();
